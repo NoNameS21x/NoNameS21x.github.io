@@ -30,6 +30,9 @@
             display: flex;
             justify-content: center;
             gap: 20px;
+            position: relative;
+            min-height: 45px;
+            width: 300px; /* Added fixed width for positioning context */
         }
         .btn {
             padding: 10px 20px;
@@ -47,6 +50,8 @@
             background-color: #f44336;
             color: white;
             position: absolute;
+            left: 160px; /* Initial position */
+            top: 0;
         }
         .popup {
             display: none;
@@ -78,8 +83,8 @@
 <body>
     <div class="content">
         <div class="text-lines">
-            <h1>Will you be my friend?</h1>
-            <p>I promise I'm not clingy!</p>
+            <h1>Forgive me pls bbyyyyy</h1>
+            <p>Don't be angry anymore 😖😭</p>
         </div>
         <div class="gif-container">
             <img src="/api/placeholder/300/200" alt="Cute animal gif">
@@ -89,7 +94,6 @@
             <button id="noBtn" class="btn">No</button>
         </div>
     </div>
-
     <div id="popup" class="popup">
         <div class="popup-content">
             <h2>Yay! Thank you!</h2>
@@ -99,24 +103,26 @@
             <button class="close-popup">Close</button>
         </div>
     </div>
-
     <script>
         const noBtn = document.getElementById('noBtn');
         const yesBtn = document.getElementById('yesBtn');
         const popup = document.getElementById('popup');
         const closePopup = document.querySelector('.close-popup');
-
+        
+        // Set initial position
+        const buttonsContainer = document.querySelector('.buttons');
+        const containerRect = buttonsContainer.getBoundingClientRect();
+        noBtn.style.left = containerRect.width / 2 + 20 + 'px';
+        
         noBtn.addEventListener('mouseover', () => {
             const maxX = window.innerWidth - noBtn.offsetWidth;
             const maxY = window.innerHeight - noBtn.offsetHeight;
             noBtn.style.left = Math.random() * maxX + 'px';
             noBtn.style.top = Math.random() * maxY + 'px';
         });
-
         yesBtn.addEventListener('click', () => {
             popup.style.display = 'block';
         });
-
         closePopup.addEventListener('click', () => {
             popup.style.display = 'none';
         });
