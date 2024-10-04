@@ -30,6 +30,9 @@
             display: flex;
             justify-content: center;
             gap: 20px;
+            position: relative;
+            min-height: 45px;
+            width: 300px;
         }
         .btn {
             padding: 10px 20px;
@@ -46,7 +49,11 @@
         #noBtn {
             background-color: #f44336;
             color: white;
-            position: relative;
+            position: fixed; /* Changed to fixed for viewport positioning */
+            left: 160px;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 100;
         }
         .popup {
             display: none;
@@ -78,8 +85,8 @@
 <body>
     <div class="content">
         <div class="text-lines">
-            <h1>Will you be my friend?</h1>
-            <p>I promise I'm not clingy!</p>
+            <h1>Forgive me pls bbyyyyy</h1>
+            <p>Don't be angry anymore 😖😭</p>
         </div>
         <div class="gif-container">
             <img src="/api/placeholder/300/200" alt="Cute animal gif">
@@ -89,7 +96,6 @@
             <button id="noBtn" class="btn">No</button>
         </div>
     </div>
-
     <div id="popup" class="popup">
         <div class="popup-content">
             <h2>Yay! Thank you!</h2>
@@ -99,24 +105,41 @@
             <button class="close-popup">Close</button>
         </div>
     </div>
-
     <script>
         const noBtn = document.getElementById('noBtn');
         const yesBtn = document.getElementById('yesBtn');
         const popup = document.getElementById('popup');
         const closePopup = document.querySelector('.close-popup');
-
+        
+        // Set initial position
+        const buttonsContainer = document.querySelector('.buttons');
+        const containerRect = buttonsContainer.getBoundingClientRect();
+        noBtn.style.left = (containerRect.left + containerRect.width/2 + 20) + 'px';
+        noBtn.style.top = containerRect.top + 'px';
+        
         noBtn.addEventListener('mouseover', () => {
-            const maxX = window.innerWidth - noBtn.offsetWidth;
-            const maxY = window.innerHeight - noBtn.offsetHeight;
-            noBtn.style.left = Math.random() * maxX + 'px';
-            noBtn.style.top = Math.random() * maxY + 'px';
+            const padding = 20; // Padding from viewport edges
+            const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+            const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+            const minX = padding;
+            const minY = padding;
+            
+            // Generate random position within bounds
+            const randomX = Math.random() * (maxX - minX) + minX;
+            const randomY = Math.random() * (maxY - minY) + minY;
+            
+            // Apply new position
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+            
+            // Remove transform to prevent centering issues
+            noBtn.style.transform = 'none';
         });
 
         yesBtn.addEventListener('click', () => {
             popup.style.display = 'block';
         });
-
+        
         closePopup.addEventListener('click', () => {
             popup.style.display = 'none';
         });
